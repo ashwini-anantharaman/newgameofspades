@@ -1,6 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { LESSONS } from "../../src/lib/store/content";
-import { nodeById } from "../../src/lib/teaching/skillTree";
 import { scenariosForNode } from "../../src/lib/teaching/scenarioGen";
 import type { Lesson, LessonStep, Scenario } from "../../src/lib/store/content";
 import type { Card, Seat, Suit, Rank } from "../../src/lib/engine/types";

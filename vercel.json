@@ -4,19 +4,5 @@
   "framework": "vite",
   "rewrites": [
     { "source": "/((?!api/).*)", "destination": "/index.html" }
-  ],
-  "functions": {
-    "api/coach.ts": {
-      "maxDuration": 60,
-      "includeFiles": "src/lib/**"
-    },
-    "api/content/lesson.ts": {
-      "maxDuration": 60,
-      "includeFiles": "src/lib/**"
-    },
-    "api/content/scenario.ts": {
-      "maxDuration": 60,
-      "includeFiles": "src/lib/**"
-    }
-  }
+  ]
 }
