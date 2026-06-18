@@ -6,6 +6,7 @@ export async function fetchLesson(nodeId: string, title: string, blurb: string):
   const res = await fetch("/api/content/lesson", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
+    credentials: "same-origin",
     body: JSON.stringify({ nodeId, title, blurb }),
   });
   if (!res.ok) throw new Error(`lesson ${res.status}`);
@@ -21,6 +22,7 @@ export async function fetchScenario(
   const res = await fetch("/api/content/scenario", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
+    credentials: "same-origin",
     body: JSON.stringify({ nodeId, title, blurb, difficulty }),
   });
   if (!res.ok) throw new Error(`scenario ${res.status}`);

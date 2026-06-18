@@ -78,7 +78,7 @@ function demoTrickFor(demo: string): { seat: string; card: { suit: 'spades' | 'h
 
 export function Lesson({ onNext, onBack }: LessonProps) {
   const { activeNodeId, completeLesson } = useSpadesStore();
-  const { lesson, loading, source, apiError, refresh, generating } = useNodeLesson(activeNodeId);
+  const { lesson, loading, source, refresh, generating } = useNodeLesson(activeNodeId);
   const [step, setStep] = useState(0);
 
   useEffect(() => {
@@ -119,23 +119,21 @@ export function Lesson({ onNext, onBack }: LessonProps) {
           <div className="text-[11px] text-[#7E8A86] uppercase tracking-wider">Step {step + 1} of {lesson.steps.length}</div>
           {source === 'ai' && <span className="text-[9px] text-[#14564A]">AI tailored</span>}
           {source === 'cache' && <span className="text-[9px] text-[#14564A]">Saved AI lesson</span>}
-          {source === 'static' && !generating && <span className="text-[9px] text-[#C49135]">Built-in</span>}
+          {source === 'static' && !generating && (
+            <div className="flex items-center gap-2">
+              <span className="text-[9px] text-[#C49135]">Built-in</span>
+              <button
+                type="button"
+                onClick={() => void refresh()}
+                className="text-[9px] text-[#14564A] hover:underline"
+              >
+                Retry AI
+              </button>
+            </div>
+          )}
           {generating && <span className="text-[9px] text-[#7E8A86] animate-pulse">Generating AI…</span>}
         </div>
       </div>
-
-      {apiError && (
-        <div className="mx-6 mt-4 bg-[#E6B24A]/10 border border-[#E6B24A]/30 rounded-[12px] px-4 py-3 flex items-start justify-between gap-3">
-          <p className="text-[#15110C] text-xs leading-relaxed flex-1">{apiError}</p>
-          <button
-            type="button"
-            onClick={() => void refresh()}
-            className="text-[#14564A] text-xs font-semibold whitespace-nowrap hover:underline"
-          >
-            Regenerate
-          </button>
-        </div>
-      )}
 
       <div className="flex-1 overflow-y-auto">
         <div className="max-w-xl mx-auto px-6 py-8 flex flex-col gap-6">

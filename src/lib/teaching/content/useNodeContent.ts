@@ -51,16 +51,11 @@ export function useNodeLesson(nodeId: string) {
       setSource(res.source);
       if (res.source === "ai") {
         setCachedLesson(nodeId, res.lesson, "ai");
-        setApiError(null);
-      } else {
-        setApiError("AI lesson unavailable — showing built-in version.");
       }
-    } catch (e: unknown) {
-      setApiError(
-        e instanceof Error && e.message.includes("404")
-          ? "Coach API not found."
-          : "AI lesson unavailable — showing built-in version.",
-      );
+      setApiError(null);
+    } catch {
+      // Built-in lesson is already on screen — no need to alarm the user.
+      setApiError(null);
     } finally {
       setGenerating(false);
     }
@@ -121,11 +116,9 @@ export function useNodeScenario(nodeId: string, difficulty: 1 | 2 | 3) {
         setScenario(res.scenario);
         setSource(res.source);
         if (res.source === "ai") setCachedScenario(nodeId, difficulty, res.scenario, "ai");
-        else setApiError("AI scenario unavailable — showing built-in drill.");
       } catch {
         if (cancelled) return;
         setSource("static");
-        setApiError("AI scenario unavailable — showing built-in drill.");
       } finally {
         if (!cancelled) setLoading(false);
       }

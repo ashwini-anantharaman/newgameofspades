@@ -23,7 +23,7 @@ export function Practice({ onBack, onNext }: PracticeProps) {
     return score < 0.4 ? 1 : score < 0.7 ? 2 : 3;
   }, [profile, activeNodeId]);
 
-  const { scenario, loading, source, apiError } = useNodeScenario(activeNodeId, difficulty);
+  const { scenario, loading, source } = useNodeScenario(activeNodeId, difficulty);
   const [solved, setSolved] = useState(false);
   const [wrongCount, setWrongCount] = useState(0);
   const [lastPick, setLastPick] = useState<number | null>(null);
@@ -86,12 +86,6 @@ export function Practice({ onBack, onNext }: PracticeProps) {
           {source === 'static' && <span className="text-[9px] text-[#C49135]">Built-in</span>}
         </div>
       </div>
-
-      {apiError && (
-        <div className="mx-6 mt-4 bg-[#E6B24A]/10 border border-[#E6B24A]/30 rounded-[12px] px-4 py-3">
-          <p className="text-[#15110C] text-xs leading-relaxed">{apiError}</p>
-        </div>
-      )}
 
       <div className="flex-1 overflow-y-auto">
         <div className="max-w-lg mx-auto px-6 py-8 flex flex-col gap-6">
