@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { generateLesson } from "../../server/contentHandler";
+import { generateLesson } from "../lib/contentHandler";
 import type { LessonRequest } from "../../src/lib/teaching/content/protocol";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {

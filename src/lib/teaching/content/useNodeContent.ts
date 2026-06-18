@@ -58,8 +58,8 @@ export function useNodeLesson(nodeId: string) {
     } catch (e: unknown) {
       setApiError(
         e instanceof Error && e.message.includes("404")
-          ? "Coach API not found — run npm run start"
-          : "Could not reach coach API — run npm run start",
+          ? "Coach API not found."
+          : "AI lesson unavailable — showing built-in version.",
       );
     } finally {
       setGenerating(false);
@@ -125,7 +125,7 @@ export function useNodeScenario(nodeId: string, difficulty: 1 | 2 | 3) {
       } catch {
         if (cancelled) return;
         setSource("static");
-        setApiError("Could not reach coach API — run npm run start");
+        setApiError("AI scenario unavailable — showing built-in drill.");
       } finally {
         if (!cancelled) setLoading(false);
       }

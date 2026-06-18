@@ -1,12 +1,12 @@
 import Anthropic from "@anthropic-ai/sdk";
-import { LESSONS } from "../src/lib/store/content";
-import { nodeById } from "../src/lib/teaching/skillTree";
-import { scenariosForNode } from "../src/lib/teaching/scenarioGen";
-import type { Lesson, LessonStep, Scenario } from "../src/lib/store/content";
-import type { Card, Seat, Suit, Rank } from "../src/lib/engine/types";
-import { DEMO_KEYS, LessonRequest, ScenarioRequest } from "../src/lib/teaching/content/protocol";
-import { buildLessonPrompt, buildScenarioPrompt } from "../src/lib/teaching/content/prompt";
-import { COACH_MODEL, CONTENT_MAX_TOKENS } from "../src/lib/teaching/llm/protocol";
+import { LESSONS } from "../../src/lib/store/content";
+import { nodeById } from "../../src/lib/teaching/skillTree";
+import { scenariosForNode } from "../../src/lib/teaching/scenarioGen";
+import type { Lesson, LessonStep, Scenario } from "../../src/lib/store/content";
+import type { Card, Seat, Suit, Rank } from "../../src/lib/engine/types";
+import { DEMO_KEYS, LessonRequest, ScenarioRequest } from "../../src/lib/teaching/content/protocol";
+import { buildLessonPrompt, buildScenarioPrompt } from "../../src/lib/teaching/content/prompt";
+import { COACH_MODEL, CONTENT_MAX_TOKENS } from "../../src/lib/teaching/llm/protocol";
 
 let _client: Anthropic | null = null;
 function client(): Anthropic {
@@ -74,18 +74,18 @@ function parseScenario(nodeId: string, text: string, fallback: Scenario): { scen
     const ledSuit = led === null || led === undefined ? null : SUITS.has(String(led)) ? (String(led) as Suit) : fallback.ledSuit;
     return {
       scenario: {
-      id: String(data.id ?? `${nodeId}-ai`),
-      nodeId,
-      difficulty: ([1, 2, 3].includes(Number(data.difficulty)) ? Number(data.difficulty) : fallback.difficulty) as 1 | 2 | 3,
-      prompt: String(data.prompt),
-      hand,
-      trick,
-      ledSuit,
-      bids: (data.bids as Scenario["bids"]) ?? fallback.bids,
-      spadesBroken: Boolean(data.spadesBroken),
-      correctCards,
-      explainCorrect: String(data.explainCorrect ?? fallback.explainCorrect),
-    },
+        id: String(data.id ?? `${nodeId}-ai`),
+        nodeId,
+        difficulty: ([1, 2, 3].includes(Number(data.difficulty)) ? Number(data.difficulty) : fallback.difficulty) as 1 | 2 | 3,
+        prompt: String(data.prompt),
+        hand,
+        trick,
+        ledSuit,
+        bids: (data.bids as Scenario["bids"]) ?? fallback.bids,
+        spadesBroken: Boolean(data.spadesBroken),
+        correctCards,
+        explainCorrect: String(data.explainCorrect ?? fallback.explainCorrect),
+      },
       fromAi: true,
     };
   } catch {
@@ -94,7 +94,6 @@ function parseScenario(nodeId: string, text: string, fallback: Scenario): { scen
 }
 
 export async function generateLesson(req: LessonRequest): Promise<{ lesson: Lesson; source: "ai" | "static" }> {
-  const node = nodeById(req.nodeId);
   const fallback: Lesson = LESSONS[req.nodeId] ?? {
     nodeId: req.nodeId,
     title: req.title,

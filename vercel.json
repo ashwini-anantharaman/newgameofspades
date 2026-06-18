@@ -7,13 +7,16 @@
   ],
   "functions": {
     "api/coach.ts": {
-      "maxDuration": 60
+      "maxDuration": 60,
+      "includeFiles": "src/lib/**"
     },
     "api/content/lesson.ts": {
-      "maxDuration": 60
+      "maxDuration": 60,
+      "includeFiles": "src/lib/**"
     },
     "api/content/scenario.ts": {
-      "maxDuration": 60
+      "maxDuration": 60,
+      "includeFiles": "src/lib/**"
     }
   }
 }

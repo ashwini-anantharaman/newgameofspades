@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { coachStream } from "../server/coachHandler";
+import { coachStream } from "./lib/coachHandler";
 import type { CoachRequest } from "../src/lib/teaching/llm/protocol";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {

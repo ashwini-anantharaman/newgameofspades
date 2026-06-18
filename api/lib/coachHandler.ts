@@ -1,7 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
-import { CoachRequest, StreamEvent } from "../src/lib/teaching/llm/protocol";
-import { buildSystemPrompt, buildUserContent } from "../src/lib/teaching/llm/prompt";
-import { COACH_MODEL, MAX_TOKENS } from "../src/lib/teaching/llm/protocol";
+import { CoachRequest, StreamEvent } from "../../src/lib/teaching/llm/protocol";
+import { buildSystemPrompt, buildUserContent } from "../../src/lib/teaching/llm/prompt";
+import { COACH_MODEL, MAX_TOKENS } from "../../src/lib/teaching/llm/protocol";
 
 let _client: Anthropic | null = null;
 function client(): Anthropic {
@@ -15,12 +15,6 @@ function client(): Anthropic {
 
 const sse = (e: StreamEvent) => `data: ${JSON.stringify(e)}\n\n`;
 
-/**
- * Core handler. Framework-agnostic: yields SSE-formatted strings.
- * Adapt to Express/Next/Vercel by piping these to the response (see express.ts).
- * Keeps the API key server-side; the model is told to teach to the engine
- * evaluation passed in the request (ground truth), never to re-rank moves.
- */
 export async function* coachStream(req: CoachRequest): AsyncGenerator<string> {
   try {
     const system = buildSystemPrompt(req);
@@ -39,13 +33,13 @@ export async function* coachStream(req: CoachRequest): AsyncGenerator<string> {
       }
     }
     yield sse({ type: "done" });
-  } catch (e: any) {
-    yield sse({ type: "error", message: e?.message ?? "coach error" });
+  } catch (e: unknown) {
+    const message = e instanceof Error ? e.message : "coach error";
+    yield sse({ type: "error", message });
     yield sse({ type: "done" });
   }
 }
 
-/** Convenience: collect the full text server-side (non-streaming callers). */
 export async function coachComplete(req: CoachRequest): Promise<string> {
   const system = buildSystemPrompt(req);
   const content = buildUserContent(req);
@@ -55,5 +49,5 @@ export async function coachComplete(req: CoachRequest): Promise<string> {
     system,
     messages: [{ role: "user", content }],
   });
-  return msg.content.filter((b) => b.type === "text").map((b: any) => b.text).join("");
+  return msg.content.filter((b) => b.type === "text").map((b) => (b as { text: string }).text).join("");
 }

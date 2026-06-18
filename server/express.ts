@@ -21,8 +21,8 @@ if (existsSync(envPath)) {
     if (key && process.env[key] === undefined) process.env[key] = val;
   }
 }
-import { coachStream } from "./coachHandler";
-import { generateLesson, generateScenario } from "./contentHandler";
+import { coachStream } from "../api/lib/coachHandler";
+import { generateLesson, generateScenario } from "../api/lib/contentHandler";
 import type { CoachRequest } from "../src/lib/teaching/llm/protocol";
 import type { LessonRequest, ScenarioRequest } from "../src/lib/teaching/content/protocol";
 

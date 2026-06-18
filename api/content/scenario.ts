@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { generateScenario } from "../../server/contentHandler";
+import { generateScenario } from "../lib/contentHandler";
 import type { ScenarioRequest } from "../../src/lib/teaching/content/protocol";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
