@@ -1,11 +1,11 @@
 import * as esbuild from "esbuild";
 import { rmSync } from "node:fs";
 
-rmSync("api/handler.cjs", { force: true });
+rmSync("api/handler.bundle.cjs", { force: true });
 
 await esbuild.build({
   entryPoints: ["server/app.ts"],
-  outfile: "api/handler.cjs",
+  outfile: "api/handler.bundle.cjs",
   bundle: true,
   platform: "node",
   target: "node20",
@@ -15,4 +15,4 @@ await esbuild.build({
   footer: { js: "module.exports = app_default;" },
 });
 
-console.log("Bundled API → api/handler.cjs");
+console.log("Bundled API → api/handler.bundle.cjs");

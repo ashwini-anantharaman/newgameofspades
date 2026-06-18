@@ -5,5 +5,11 @@
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/handler" },
     { "source": "/((?!api/).*)", "destination": "/index.html" }
-  ]
+  ],
+  "functions": {
+    "api/handler.ts": {
+      "includeFiles": "api/handler.bundle.cjs",
+      "maxDuration": 60
+    }
+  }
 }

@@ -628,4 +628,4 @@ app.post("/api/content/scenario", async (req, res) => {
 });
 var app_default = app;
 module.exports = app_default;
-//# sourceMappingURL=handler.cjs.map
+//# sourceMappingURL=handler.bundle.cjs.map
